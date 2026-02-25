@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pandora's Vault</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;900&family=IM+Fell+English:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <!-- Mermaid diagrams -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Star field canvas -->
+  <canvas id="starCanvas"></canvas>
+
+  <!-- Nebula haze layers -->
+  <div class="nebula-layer nebula-a"></div>
+  <div class="nebula-layer nebula-b"></div>
+  <div class="nebula-layer nebula-c"></div>
+  <div class="nebula-layer nebula-d"></div>
+
+  <!-- ══ HOME PAGE ══════════════════════════════════════ -->
+  <div id="homePage" class="page active">
+    <div class="home-center">
+
+      <div class="vault-emblem">
+        <svg class="orrery" width="150" height="150" viewBox="0 0 140 140" fill="none">
+          <defs>
+            <linearGradient id="goldGrad" x1="0" y1="0" x2="140" y2="140" gradientUnits="userSpaceOnUse">
+              <stop offset="0%"   stop-color="#f0d878"/>
+              <stop offset="50%"  stop-color="#c8a040"/>
+              <stop offset="100%" stop-color="#8b6820"/>
+            </linearGradient>
+            <filter id="starGlow">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <!-- Rings -->
+          <circle cx="70" cy="70" r="67" stroke="url(#goldGrad)" stroke-width="0.6" opacity="0.25"/>
+          <circle cx="70" cy="70" r="60" stroke="url(#goldGrad)" stroke-width="0.4" opacity="0.15" stroke-dasharray="2 10"/>
+          <circle cx="70" cy="70" r="50" stroke="url(#goldGrad)" stroke-width="0.8" opacity="0.35"/>
+          <circle cx="70" cy="70" r="40" stroke="url(#goldGrad)" stroke-width="0.4" opacity="0.15" stroke-dasharray="2 8"/>
+          <circle cx="70" cy="70" r="30" stroke="url(#goldGrad)" stroke-width="0.8" opacity="0.4"/>
+          <circle cx="70" cy="70" r="18" stroke="url(#goldGrad)" stroke-width="0.6" opacity="0.3"/>
+          <!-- Cross lines -->
+          <line x1="3"  y1="70" x2="137" y2="70"  stroke="url(#goldGrad)" stroke-width="0.35" opacity="0.15"/>
+          <line x1="70" y1="3"  x2="70"  y2="137" stroke="url(#goldGrad)" stroke-width="0.35" opacity="0.15"/>
+          <line x1="20" y1="20" x2="120" y2="120"  stroke="url(#goldGrad)" stroke-width="0.25" opacity="0.08"/>
+          <line x1="120" y1="20" x2="20" y2="120"  stroke="url(#goldGrad)" stroke-width="0.25" opacity="0.08"/>
+          <!-- Cardinal ticks -->
+          <line x1="70" y1="3"  x2="70" y2="11"   stroke="url(#goldGrad)" stroke-width="1.2" opacity="0.6"/>
+          <line x1="70" y1="129" x2="70" y2="137" stroke="url(#goldGrad)" stroke-width="1.2" opacity="0.6"/>
+          <line x1="3"  y1="70" x2="11" y2="70"   stroke="url(#goldGrad)" stroke-width="1.2" opacity="0.6"/>
+          <line x1="129" y1="70" x2="137" y2="70" stroke="url(#goldGrad)" stroke-width="1.2" opacity="0.6"/>
+          <!-- Diagonal ticks -->
+          <line x1="21" y1="21" x2="26" y2="26"   stroke="url(#goldGrad)" stroke-width="0.8" opacity="0.35"/>
+          <line x1="119" y1="21" x2="114" y2="26" stroke="url(#goldGrad)" stroke-width="0.8" opacity="0.35"/>
+          <line x1="21" y1="119" x2="26" y2="114" stroke="url(#goldGrad)" stroke-width="0.8" opacity="0.35"/>
+          <line x1="119" y1="119" x2="114" y2="114" stroke="url(#goldGrad)" stroke-width="0.8" opacity="0.35"/>
+          <!-- Orbital planet dots -->
+          <circle cx="120" cy="70" r="4"   fill="url(#goldGrad)" filter="url(#starGlow)" opacity="0.95"/>
+          <circle cx="70"  cy="20" r="3"   fill="url(#goldGrad)" filter="url(#starGlow)" opacity="0.8"/>
+          <circle cx="35"  cy="105" r="2.5" fill="url(#goldGrad)" opacity="0.6"/>
+          <circle cx="105" cy="35"  r="2"   fill="url(#goldGrad)" opacity="0.4"/>
+          <!-- Central star -->
+          <polygon points="70,57 74.2,66.5 85,66.5 76.5,72.8 79.8,83 70,76.5 60.2,83 63.5,72.8 55,66.5 65.8,66.5"
+                   fill="url(#goldGrad)" filter="url(#starGlow)" opacity="0.95"/>
+        </svg>
+      </div>
+
+      <p class="home-eyebrow">✦ &nbsp; An Adaptive Codex &nbsp; ✦</p>
+      <h1 class="home-title">Pandora's<br/><span>Vault</span></h1>
+      <p class="home-sub">
+        A mythical tutor forged at the edge of the cosmos —<br/>
+        teaching not just <em>how</em>, but <em>where</em> and <em>why</em>.
+      </p>
+
+      <button class="btn-vault" onclick="openAuthOverlay()">
+        <span class="btn-vault-rune">⬡</span>
+        Open the Vault
+      </button>
+
+      <div class="tier-preview">
+        <span class="tier-chip l1"><span class="tier-roman">I</span> Novice</span>
+        <span class="tier-sep">·</span>
+        <span class="tier-chip l2"><span class="tier-roman">II</span> Practitioner</span>
+        <span class="tier-sep">·</span>
+        <span class="tier-chip l3"><span class="tier-roman">III</span> Architect</span>
+        <span class="tier-sep">·</span>
+        <span class="tier-chip l4"><span class="tier-roman">IV</span> Optimizer</span>
+        <span class="tier-sep">·</span>
+        <span class="tier-chip l5"><span class="tier-roman">V</span> Engineer</span>
+      </div>
+
+      <div class="home-constellation-hint">· ✦ · ✦ · ✦ ·</div>
+    </div>
+  </div>
+
+  <!-- ══ AUTH OVERLAY ══════════════════════════════════ -->
+  <div id="authOverlay" class="overlay hidden">
+    <div class="overlay-backdrop" onclick="closeAuthOverlay()"></div>
+    <div class="overlay-card">
+      <button class="overlay-close" onclick="closeAuthOverlay()">✕</button>
+
+      <div class="overlay-logo">
+        <svg width="24" height="24" viewBox="0 0 140 140" fill="none">
+          <circle cx="70" cy="70" r="66" stroke="url(#og1)" stroke-width="1.5" opacity="0.6"/>
+          <polygon points="70,56 73.8,65.5 84,65.5 75.8,71.5 79,81 70,75 61,81 64.2,71.5 56,65.5 66.2,65.5" fill="url(#og1)"/>
+          <defs>
+            <linearGradient id="og1" x1="0" y1="0" x2="140" y2="140" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#f0d878"/>
+              <stop offset="100%" stop-color="#c8a040"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        Pandora's Vault
+      </div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabSignup" onclick="switchAuthTab('signup')">Join the Order</button>
+        <button class="auth-tab" id="tabLogin" onclick="switchAuthTab('login')">Return</button>
+      </div>
+
+      <div id="signupForm" class="auth-form">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="signup_email" placeholder="you@example.com" autocomplete="email"/>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="signup_password" placeholder="Min 8 characters" autocomplete="new-password"/>
+        </div>
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <input type="password" id="signup_confirm" placeholder="Repeat password" autocomplete="new-password"/>
+        </div>
+        <div id="signup_error" class="form-error hidden"></div>
+        <button class="btn-auth" onclick="signup()">
+          <span id="signupBtnText">Bind to the Vault →</span>
+          <span id="signupBtnSpinner" class="spinner hidden"></span>
+        </button>
+      </div>
+
+      <div id="loginForm" class="auth-form hidden">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="login_email" placeholder="you@example.com" autocomplete="email"/>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="login_password" placeholder="Your password" autocomplete="current-password"/>
+        </div>
+        <div id="login_error" class="form-error hidden"></div>
+        <button class="btn-auth" onclick="login()">
+          <span id="loginBtnText">Enter the Vault →</span>
+          <span id="loginBtnSpinner" class="spinner hidden"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ONBOARD OVERLAY ═════════════════════════════════ -->
+  <div id="onboardOverlay" class="overlay hidden">
+    <div class="overlay-backdrop"></div>
+    <div class="overlay-card">
+      <div class="overlay-logo">✦ &nbsp; Choose Your Name</div>
+      <p class="overlay-sub">Every scholar of the Vault bears a name. Choose yours.</p>
+      <div class="form-group">
+        <label>Scholar Name</label>
+        <input type="text" id="onboard_username" placeholder="e.g. starweaver, voidcoder…"/>
+      </div>
+      <div id="onboard_error" class="form-error hidden"></div>
+      <button class="btn-auth" onclick="onboard()">
+        <span id="onboardBtnText">Enter the Vault →</span>
+        <span id="onboardBtnSpinner" class="spinner hidden"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ VAULT APP PAGE ══════════════════════════════════ -->
+  <div id="vaultPage" class="page hidden">
+
+    <div class="topbar">
+      <div class="topbar-logo">
+        <svg width="18" height="18" viewBox="0 0 140 140" fill="none">
+          <circle cx="70" cy="70" r="66" stroke="url(#tbg)" stroke-width="1.5" opacity="0.7"/>
+          <polygon points="70,56 73.8,65.5 84,65.5 75.8,71.5 79,81 70,75 61,81 64.2,71.5 56,65.5 66.2,65.5" fill="url(#tbg)"/>
+          <defs>
+            <linearGradient id="tbg" x1="0" y1="0" x2="140" y2="140" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#f0d878"/>
+              <stop offset="100%" stop-color="#c8a040"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        Pandora's Vault
+      </div>
+      <div class="topbar-user">
+        <span class="topbar-rune">✦</span>
+        <span id="topbarUsername" class="topbar-uname"></span>
+        <button class="btn-ghost-sm" onclick="logout()">Depart</button>
+      </div>
+    </div>
+
+    <div class="vault-layout">
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="sidebar-label">✦ &nbsp; Vault Levels</div>
+        <div class="level-list" id="levelList"></div>
+
+        <div class="sidebar-divider">
+          <span class="sidebar-divider-rune">· ✦ · ✦ · ✦ ·</span>
+        </div>
+
+        <div class="sidebar-section">
+          <label class="sidebar-input-label">Topic</label>
+          <input type="text" id="topicInput" class="sidebar-input" placeholder="Hashing, Trees, DP…"/>
+        </div>
+        <div class="sidebar-section">
+          <label class="sidebar-input-label">Language</label>
+          <select id="langSelect" class="sidebar-input">
+            <option>Python</option>
+            <option>JavaScript</option>
+            <option>Java</option>
+            <option>Go</option>
+            <option>C++</option>
+            <option>TypeScript</option>
+            <option>Rust</option>
+          </select>
+        </div>
+        <button class="btn-start" onclick="startVault()">
+          ⬡ &nbsp; Open Vault Chamber
+        </button>
+
+        <div class="sidebar-footer">· ✦ · ✦ · ✦ ·</div>
+      </aside>
+
+      <!-- MAIN -->
+      <main class="vault-main" id="vaultMain">
+
+        <!-- Welcome -->
+        <div id="welcomeState" class="state-card">
+          <div class="state-orrery">
+            <svg width="80" height="80" viewBox="0 0 140 140" fill="none">
+              <circle cx="70" cy="70" r="65" stroke="url(#sg1)" stroke-width="0.75" opacity="0.3"/>
+              <circle cx="70" cy="70" r="48" stroke="url(#sg1)" stroke-width="0.6" opacity="0.2" stroke-dasharray="3 9"/>
+              <circle cx="70" cy="70" r="30" stroke="url(#sg1)" stroke-width="0.75" opacity="0.25"/>
+              <line x1="4" y1="70" x2="136" y2="70"  stroke="url(#sg1)" stroke-width="0.4" opacity="0.12"/>
+              <line x1="70" y1="4" x2="70" y2="136"  stroke="url(#sg1)" stroke-width="0.4" opacity="0.12"/>
+              <polygon points="70,56 73.8,65.5 84,65.5 75.8,71.5 79,81 70,75 61,81 64.2,71.5 56,65.5 66.2,65.5" fill="url(#sg1)" opacity="0.55"/>
+              <defs>
+                <linearGradient id="sg1" x1="0" y1="0" x2="140" y2="140" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#f0d878"/>
+                  <stop offset="100%" stop-color="#c8a040"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <p class="state-eyebrow">✦ · ✦ · ✦</p>
+          <h2>Welcome, Scholar</h2>
+          <p>Select a topic and a level from the left archive.<br/>The Gatekeeper will test your foundations before each vault opens.</p>
+        </div>
+
+        <!-- Loading -->
+        <div id="loadingState" class="state-card hidden">
+          <div class="vault-loader">
+            <div class="loader-ring r1"></div>
+            <div class="loader-ring r2"></div>
+            <div class="loader-ring r3"></div>
+            <div class="loader-star">✦</div>
+          </div>
+          <p id="loadingText" class="loading-text">The Gatekeeper stirs…</p>
+        </div>
+
+        <!-- Gate -->
+        <div id="gateState" class="hidden">
+          <div class="gate-header">
+            <div class="gate-badge">⚔ &nbsp; The Gatekeeper Speaks</div>
+            <h2 id="gateTitle" class="gate-title"></h2>
+          </div>
+          <div class="content-card" id="gateQuestion"></div>
+          <div class="answer-area">
+            <label class="answer-label">✦ &nbsp; Your Answer</label>
+            <textarea id="answerInput" class="answer-box" placeholder="Speak your knowledge into the Vault… Take your time."></textarea>
+            <div class="attempt-track">
+              <span id="attemptDots"></span>
+              <span id="attemptText" class="attempt-label">Attempt 1 of 3</span>
+            </div>
+            <button class="btn-submit" onclick="submitAnswer()">
+              <span id="submitBtnText">Present your Answer →</span>
+              <span id="submitBtnSpinner" class="spinner hidden"></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Hint -->
+        <div id="hintState" class="hidden">
+          <div class="hint-header">
+            <div class="hint-badge" id="hintBadge">💡 A Vision Appears</div>
+            <p id="hintText"></p>
+          </div>
+          <div id="hintContent" class="content-card"></div>
+          <div class="answer-area">
+            <label class="answer-label">✦ &nbsp; Try Once More</label>
+            <textarea id="retryInput" class="answer-box" placeholder="The stars have shown you the way — give it another try."></textarea>
+            <div class="attempt-track">
+              <span id="retryDots"></span>
+              <span id="retryText" class="attempt-label"></span>
+            </div>
+            <button class="btn-submit" onclick="retryAnswer()">
+              <span id="retryBtnText">Submit →</span>
+              <span id="retryBtnSpinner" class="spinner hidden"></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Reveal -->
+        <div id="revealState" class="hidden">
+          <div class="reveal-header">
+            <div class="reveal-badge">🌟 &nbsp; The Vault Reveals Its Secrets</div>
+          </div>
+          <div class="content-card" id="revealContent"></div>
+          <div class="reveal-actions">
+            <button class="btn-drop" onclick="dropToLowerLevel()">
+              Descend to Level <span id="dropLevelNum"></span> →
+            </button>
+          </div>
+        </div>
+
+        <!-- Lesson + Chat -->
+        <div id="lessonState" class="hidden">
+          <div class="lesson-header">
+            <div class="unlock-badge">🔓 &nbsp; Vault Chamber Unlocked</div>
+            <h2 id="lessonTitle" class="lesson-title"></h2>
+            <div class="lesson-divider"><span>· ✦ ·</span></div>
+          </div>
+          <div class="content-card" id="lessonContent"></div>
+
+          <div class="chat-section">
+            <div class="chat-label">
+              <span class="chat-label-rune">✦</span>
+              Consult Vera — Ask about this topic
+            </div>
+            <div class="chat-thread" id="chatThread"></div>
+            <div class="chat-input-row">
+              <textarea
+                id="chatInput"
+                class="chat-input"
+                placeholder="Ask a follow-up, request an example, go deeper…"
+                rows="1"
+                onkeydown="handleChatKey(event)"
+              ></textarea>
+              <button class="chat-send-btn" onclick="sendChat()" id="chatSendBtn">
+                <span id="chatSendText">↑</span>
+                <span id="chatSendSpinner" class="spinner hidden"></span>
+              </button>
+            </div>
+            <p class="chat-hint">Enter to send &nbsp;·&nbsp; Shift+Enter for new line</p>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script>
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'dark',
+      themeVariables: {
+        background:          '#04030a',
+        primaryColor:        '#1a1228',
+        primaryBorderColor:  '#c8a040',
+        primaryTextColor:    '#dcc8a0',
+        lineColor:           '#c8a04088',
+        secondaryColor:      '#0d0a1a',
+        tertiaryColor:       '#100e1a',
+        edgeLabelBackground: '#0d0a1a',
+        clusterBkg:          '#0d0a1a',
+      }
+    });
+  </script>
+  <script src="app.js"></script>
+</body>
+</html>
